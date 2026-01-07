@@ -8,7 +8,7 @@ class CpuDefenderAI {
         this.isTraining = false;
     }
 
-    generateDataset(samples = 1000) {
+    generateDataset(samples = 2000) {
         return tf.tidy(() => {
             const inputs = [];
             const outputs = [];
@@ -21,16 +21,11 @@ class CpuDefenderAI {
 
                 inputs.push([score/5000, health/100, enemies/20, time/5000]);
 
-                let label = 1; // Normal por defecto
-                
-                // --- REGLAS AGRESIVAS ---
-                // Si tienes poca vida -> Ayuda (0)
-                if (health < 30 || (health < 50 && enemies > 12)) {
+                let label = 1; 
+                if (health < 40 || (health < 50 && enemies > 12)) {
                     label = 0; 
                 } 
-                // Si juegas mínimamente bien -> Hardcore (2)
-                // Bajamos el score requerido a 150 para que suba de nivel RÁPIDO
-                else if (health > 60 && score > 150 && enemies < 10) {
+                else if (health > 70 && score > 1200 && enemies < 8) {
                     label = 2; 
                 }
 
@@ -47,16 +42,16 @@ class CpuDefenderAI {
         this.isTraining = true;
 
         this.model = tf.sequential();
-        this.model.add(tf.layers.dense({ units: 16, activation: 'relu', inputShape: [4] }));
-        this.model.add(tf.layers.dense({ units: 8, activation: 'relu' }));
+        this.model.add(tf.layers.dense({ units: 32, activation: 'relu', inputShape: [4] }));
+        this.model.add(tf.layers.dense({ units: 16, activation: 'relu' }));
         this.model.add(tf.layers.dense({ units: 3, activation: 'softmax' }));
 
-        this.model.compile({ optimizer: tf.train.adam(0.01), loss: 'categoricalCrossentropy', metrics: ['accuracy'] }); // Learning rate 0.01 para aprender rápido
+        this.model.compile({ optimizer: tf.train.adam(0.01), loss: 'categoricalCrossentropy', metrics: ['accuracy'] });
 
         const data = this.generateDataset();
         
         await this.model.fit(data.xs, data.ys, {
-            epochs: 5, // Un par de épocas más para asegurar precisión
+            epochs: 10, 
             shuffle: true,
             yieldEvery: 'batch',
             callbacks: { onEpochEnd: async () => await tf.nextFrame() }
@@ -64,7 +59,7 @@ class CpuDefenderAI {
 
         data.xs.dispose(); data.ys.dispose();
         this.isTrained = true; this.isTraining = false;
-        console.log(">> IA LISTA PARA EL COMBATE.");
+        console.log(">> IA ENTRENADA Y LISTA.");
     }
 
     predict(score, health, enemies, time) {
@@ -307,9 +302,6 @@ function startPong() {
 // -----------------------------------------------------------
 // CPU DEFENDER
 // -----------------------------------------------------------
-// -----------------------------------------------------------
-// CPU DEFENDER
-// -----------------------------------------------------------
 function startCpuDefender() {
     const gameArea = document.getElementById('game-area');
     const canvas = document.createElement('canvas');
@@ -342,9 +334,6 @@ function startCpuDefender() {
     document.getElementById('btn-repair').onclick = () => activeCpuGameInstance.repairCpu();
 }
 
-/* -----------------------------------------------------------
-   CLASE PRINCIPAL DEL JUEGO (CORREGIDA)
-   ----------------------------------------------------------- */
 class CpuGame {
     constructor(canvas) {
         this.canvas = canvas;
@@ -355,7 +344,7 @@ class CpuGame {
         this.state = 'playing';
         this.score = 0;
         
-        // VARIABLE NUEVA PARA PAUSAR DURANTE INTRO
+        // PAUSA PARA INTRO
         this.isPaused = false; 
 
         this.ai = new CpuDefenderAI();
@@ -365,7 +354,7 @@ class CpuGame {
         this.evaluationPhase = false;
         this.evaluationTimer = 0;
         this.currentLevel = 1; 
-        this.levelTimeSeconds = 0; 
+        this.levelTimerCount = 0; // Contador de checks para subir nivel
         this.aiUpdateTimer = 0;
 
         // Entidades
@@ -396,52 +385,37 @@ class CpuGame {
         this.loop();
     }
 
-    // --- AQUÍ ESTÁ EL CAMBIO PRINCIPAL ---
     async setMLMode(active) {
         this.mlModeActive = active;
         const hud = document.getElementById('ai-hud');
         
         if (active) {
-            // 1. CONGELAR EL JUEGO INMEDIATAMENTE
             this.isPaused = true; 
-            
             hud.style.display = 'flex';
             this.updateHUD("INITIALIZING...", "PLEASE WAIT");
             
-            // 2. PANTALLA DE CARGA (ENTRENAMIENTO)
             this.setLoading(true);
-            
-            // Esperar un momento para que la UI se pinte antes de bloquear con el entrenamiento
             await new Promise(r => setTimeout(r, 100));
-            
-            // Entrenar modelo (esto bloquea unos milisegundos)
             if (!this.ai.isTrained) await this.ai.trainModel();
-            
             this.setLoading(false);
 
-            // 3. MOSTRAR TÍTULO "CPU OVERDRIVE"
             this.showAnnouncement("CPU OVERDRIVE", "AI TAKING CONTROL");
-
-            // 4. ESPERAR 2.5 SEGUNDOS (MIRA EL TÍTULO, EL JUEGO SIGUE PAUSADO)
             await new Promise(r => setTimeout(r, 2500));
 
-            // 5. ARRANCAR EL JUEGO AHORA SÍ
             this.isPaused = false; 
             
-            // Configurar inicio de nivel
             this.currentLevel = 1;
-            this.levelTimeSeconds = 0;
+            this.levelTimerCount = 0;
             this.evaluationPhase = true;
             this.evaluationTimer = 0;
             
             this.updateHUD("AI LEVEL: 1", "WARMING UP");
 
         } else {
-            // APAGAR IA
             hud.style.display = 'none';
             this.currentLevel = 1;
             this.enemySpawnRate = 120;
-            this.isPaused = false; // Asegurar que se despausa si se apaga el switch
+            this.isPaused = false; 
         }
     }
 
@@ -459,60 +433,64 @@ class CpuGame {
     }
 
     update() {
-        // --- BLOQUEO DE PAUSA ---
-        // Si el estado no es playing O si está pausado por la intro, no actualiza nada.
         if (this.state !== 'playing' || this.isPaused) return;
 
         this.frameCount++;
         this.player.update(this.keys, this.mouse, this.width, this.height);
 
         // ==========================================
-        // LÓGICA DE IA Y NIVELES
+        // LÓGICA DE IA (RALENTIZADA)
         // ==========================================
         if (this.mlModeActive && this.ai.isTrained) {
             
             if (this.evaluationPhase) {
                 this.evaluationTimer++;
-                // Calibración rápida: 3 segundos (180 frames)
-                if (this.evaluationTimer > 180) {
+                // Fase inicial: 5 segundos (300 frames) de calentamiento
+                if (this.evaluationTimer > 300) {
                     this.evaluationPhase = false;
                     this.updateHUD("AI LEVEL: 1", "ASSISTANCE MODE");
                 }
             } else {
-                // Evaluar cada segundo (60 frames)
+                // Evaluar cada 4 segundos (240 frames) en lugar de 1 segundo
                 this.aiUpdateTimer++;
-                if (this.aiUpdateTimer >= 60) {
+                if (this.aiUpdateTimer >= 240) {
                     this.aiUpdateTimer = 0;
                     
                     const prediction = this.ai.predict(this.score, this.cpu.health, this.enemies.length, this.frameCount);
                     
-                    // TRANSICIONES DE NIVEL
-                    if (prediction === 2) { // La IA predice "Hardcore"
+                    // LÓGICA DE CAMBIO DE NIVEL
+                    if (prediction === 2) { // La IA detecta que vas bien ("Hardcore")
+                        
                         if (this.currentLevel === 1) {
                             this.currentLevel = 2;
-                            this.levelTimeSeconds = 0;
+                            this.levelTimerCount = 0;
                             this.showAnnouncement("LEVEL 2", "MINES DEPLOYED");
                             this.updateHUD("AI LEVEL: 2", "HARDCORE MODE");
-                        } else if (this.currentLevel === 2) {
-                            this.levelTimeSeconds++;
-                            // Si aguantas 10 segundos en nivel 2 -> BERSERK
-                            if (this.levelTimeSeconds >= 10) {
+                        } 
+                        else if (this.currentLevel === 2) {
+                            // Si ya estás en 2, cuenta cuántas veces seguidas la IA dice "vas bien"
+                            this.levelTimerCount++;
+                            
+                            // Necesitas 7 checks consecutivos en Nivel 2 para subir al 3
+                            // 7 checks * 4 segundos = ~28 segundos de juego sólido
+                            if (this.levelTimerCount >= 7) {
                                 this.currentLevel = 3;
                                 this.showAnnouncement("⚠ LEVEL 3 ⚠", "BERSERK OVERLOAD");
                                 this.updateHUD("AI LEVEL: 3", "MAXIMUM OVERDRIVE");
                             }
                         }
-                    } else if (prediction === 0) { // La IA predice "Ayuda"
+
+                    } else if (prediction === 0) { // La IA detecta que vas mal ("Ayuda")
                          if (this.currentLevel > 1) {
                             this.currentLevel = 1;
-                            this.levelTimeSeconds = 0;
+                            this.levelTimerCount = 0;
                             this.updateHUD("AI LEVEL: 1", "ASSISTANCE MODE");
                          }
                     }
                 }
             }
 
-            // APLICAR PARAMETROS SEGÚN NIVEL
+            // AJUSTE DE DIFICULTAD
             if (this.currentLevel === 1) {
                 this.enemySpawnRate = 80;
             } 
@@ -530,7 +508,7 @@ class CpuGame {
         }
 
         // ==========================================
-        // SPAWN Y UPDATE DE ENTIDADES
+        // SPAWN Y UPDATE
         // ==========================================
         if (this.frameCount % this.enemySpawnRate === 0) this.spawnEnemy();
 
@@ -539,9 +517,8 @@ class CpuGame {
             if (b.offScreen(this.width, this.height)) this.bullets.splice(i, 1);
         });
 
-        // Actualizar Enemigos
         this.enemies.forEach((e, ei) => {
-            // Lógica BERSERK
+            // Berserk: Velocidad extra en Nivel 3
             let speedMult = 1;
             if (this.currentLevel === 3 && this.mlModeActive) speedMult = 2.5; 
             
@@ -566,7 +543,6 @@ class CpuGame {
             });
         });
 
-        // Actualizar Minas
         this.enemyMines.forEach((m, mi) => {
             if(Math.hypot(m.x - this.cpu.x, m.y - this.cpu.y) < 100 && this.frameCount % 60 === 0) {
                  this.cpu.takeDamage(2);
@@ -665,7 +641,8 @@ class CpuGame {
         }
     }
 }
-/* --- CLASES VISUALES (ACTUALIZADAS PARA BERSERK) --- */
+
+/* --- CLASES VISUALES (MISMAS QUE ANTES) --- */
 class CpuEntity { 
     constructor(x, y) { this.x = x; this.y = y; this.size = 60; this.health = 100; }
     draw(ctx) {
@@ -701,7 +678,6 @@ class CpuBullet {
 }
 class CpuEnemy {
     constructor(x, y) { this.x=x; this.y=y; this.speed=1.5+Math.random(); this.radius=12; }
-    // Update recibe multiplicador de velocidad (berserk)
     update(t, mult = 1) { 
         const dx=t.x-this.x, dy=t.y-this.y, d=Math.hypot(dx,dy); 
         const currentSpeed = this.speed * mult;
@@ -709,7 +685,6 @@ class CpuEnemy {
         this.y+=(dy/d)*currentSpeed; 
     }
     draw(ctx, isBerserk = false) { 
-        // Si es berserk, color Naranja/Rojo brillante
         ctx.fillStyle = isBerserk ? '#ff5500' : '#d32f2f'; 
         ctx.beginPath(); ctx.arc(this.x, this.y, 12, 0, Math.PI*2); ctx.fill(); 
         ctx.strokeStyle='#fff'; ctx.stroke(); 
