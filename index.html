@@ -4,12 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PlayFab Arcade - CpuDefender Edition</title>
+  
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
 <div class="side-decoration left">
     <div class="neon-owl">
         <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -48,6 +53,7 @@
         <h3>CPU DEFENDER</h3>
       </div>
     </div>
+
     <div class="game-display" id="list-pro">
       <div class="game-card">
         <img src="https://images.unsplash.com/photo-1551103782-8ab07afd45c1?auto=format&fit=crop&q=80&w=400" alt="Street Fighter">
@@ -58,38 +64,57 @@
         <h3>METAL SLUG</h3>
       </div>
     </div>
-
   </div>
 
   <div class="control-panel">
     <button class="btn-side" id="prevBtn">◀</button>
-    <button class="btn-play" id="playBtn">PLAY</button>
+    <button class="btn-play" id="playBtn">JUGAR</button>
     <button class="btn-side" id="nextBtn">▶</button>
   </div>
 </div>
+
 <div class="side-decoration right">
     <div class="neon-text-container">
         <h2 class="neon-epn">EPN</h2>
         <p class="neon-sub">POLITÉCNICA</p>
     </div>
 </div>
+
 <div id="game-overlay" class="game-overlay">
     <div class="game-container">
         <div class="game-header">
-            <h3 id="game-title">PLAYING...</h3>
+            <h3 id="game-title">JUGANDO...</h3>
+            <div class="ml-switch-container">
+                <span class="ml-label">IA MODE</span>
+                <label class="switch">
+                    <input type="checkbox" id="mlToggle" onchange="toggleMLMode()">
+                    <span class="slider round"></span>
+                </label>
+            </div>
             <button class="btn-close" onclick="closeMinigame()">✕</button>
         </div>
+        
         <div class="game-area" id="game-area" style="position: relative;">
+            
+            <div id="challenge-announcement" class="challenge-overlay" style="display: none;">
+                <h1 class="glitch-text" id="announcement-title">CPU OVERDRIVE</h1>
+                <p id="announcement-subtitle">AI DIFFICULTY ENABLED</p>
+            </div>
+            
+            <div id="ai-loading" class="challenge-overlay" style="display: none; background: #000; z-index: 200;">
+                <div class="spinner"></div>
+                <p id="loading-text" style="margin-top: 20px; color: #00ff00; font-family: 'Courier Prime'; text-align:center; text-shadow: 0 0 10px #00ff00; font-size: 1rem;">INICIANDO...</p>
+            </div>
+
         </div>
         
         <div class="game-footer">
             <span id="game-score">SCORE: 0000</span>
-            <span id="game-info">USE KEYBOARD AND MOUSE</span>
+            <span id="game-info">USA TECLADO Y MOUSE</span>
         </div>
     </div>
 </div>
 
 <script src="app.js"></script>
-
 </body>
 </html>
