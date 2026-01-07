@@ -1,6 +1,4 @@
-/* ==================================================
-   1. GESTIÓN DEL MODELO DE IA (OPTIMIZADO)
-   ================================================== */
+//CPU DEFENDER - ENTRENAMIENTO Y PREDICCIÓN IA
 class CpuDefenderAI {
     constructor() {
         this.model = null;
@@ -135,13 +133,12 @@ playBtn.addEventListener('click', () => {
   const cards = getActiveCards();
   const gameName = cards[currentIndex].querySelector('h3').innerText.toLowerCase();
   
-  if (currentListId === 'list-pro') return alert("¡BLOQUEADO! Requiere Coin.");
+  if (currentListId === 'list-pro') return alert("¡BLOQUEADO! Requiere Moneda.");
 
   if (gameName.includes('pong')) playMinigame('pong');
   else if (gameName.includes('snake')) playMinigame('snake');
   else if (gameName.includes('cpu')) playMinigame('cpu');
 });
-// Función global para el Toggle desde HTML
 window.toggleMLMode = function() {
     if(activeCpuGameInstance) {
         const toggle = document.getElementById('mlToggle');
@@ -160,16 +157,15 @@ window.playMinigame = function(gameType) {
     
     document.getElementById('mlToggle').checked = false; 
     
-    gameArea.innerHTML = ''; // Limpiar canvas previo
-    // Reinsertar elementos de Overlay necesarios
+    gameArea.innerHTML = '';
     gameArea.innerHTML += `
         <div id="challenge-announcement" class="challenge-overlay" style="display: none;">
-            <h1 class="glitch-text" id="announcement-title">CPU OVERDRIVE</h1>
-            <p id="announcement-subtitle">AI DIFFICULTY ENABLED</p>
+            <h1 class="glitch-text" id="announcement-title">ACELERACIÓN DEL CPU</h1>
+            <p id="announcement-subtitle">DIFICULTAD DE IA HABILITADA</p>
         </div>
         <div id="ai-loading" class="challenge-overlay" style="display: none; background: rgba(0,0,0,0.8);">
             <div class="spinner"></div>
-            <p style="margin-top: 20px; color: #00f3ff;">TRAINING NEURAL NETWORK...</p>
+            <p style="margin-top: 20px; color: #00f3ff;">ENTRENANDO LA RED DE ENEMIGOS...</p>
         </div>
     `;
 
@@ -199,7 +195,7 @@ function createGameCanvas(w, h) {
     return { canvas: c, ctx: c.getContext('2d') };
 }
 
-function updateScore(v) { document.getElementById('game-score').innerText = typeof v === 'number' ? 'SCORE: ' + v : v; }
+function updateScore(v) { document.getElementById('game-score').innerText = typeof v === 'number' ? 'PUNTUACIÓN: ' + v : v; }
 
 function gameOverScreen(ctx, score) {
     if (gameInterval) clearInterval(gameInterval);
@@ -298,10 +294,7 @@ function startPong() {
     
     function resetBall() { b.x=300; b.y=200; b.dx = 4 * (Math.random()>.5?1:-1); b.dy = 4 * (Math.random()>.5?1:-1); }
 }
-
-// -----------------------------------------------------------
-// CPU DEFENDER
-// -----------------------------------------------------------
+// CPU DEFENDER - LÓGICA DEL JUEGO Y MEDICIÓN DE VARIABLES PARA ML
 function startCpuDefender() {
     const gameArea = document.getElementById('game-area');
     const canvas = document.createElement('canvas');
@@ -314,17 +307,17 @@ function startCpuDefender() {
     ui.className = 'ui-layer';
     ui.innerHTML = `
         <div id="ai-hud" class="ai-status-hud" style="display:none;">
-            <span id="ai-level-text">AI LEVEL: OFF</span>
-            <small id="ai-desc-text">MANUAL MODE</small>
+            <span id="ai-level-text">IA NIVEL: APAGADO</span>
+            <small id="ai-desc-text">MODO MANUAL</small>
         </div>
 
         <div class="hud-controls">
-            <button class="btn-cpu" id="btn-repair">🔧 REPAIR<span>(Cost: 500)</span></button>
+            <button class="btn-cpu" id="btn-repair">REPARAR<span>(Costo: 500)</span></button>
         </div>
         <div id="cpu-game-over" class="cpu-game-over-msg" style="display:none;">
-            <h2 style="color:red;">SYSTEM FAILURE</h2>
-            <p>Score: <span id="final-cpu-score">0</span></p>
-            <p style="font-size:0.7rem; color:#aaa;">Click ✕ to Reset</p>
+            <h2 style="color:red;">EL SISTEMA FALLÓ</h2>
+            <p>Puntuación: <span id="final-cpu-score">0</span></p>
+            <p style="font-size:0.7rem; color:#aaa;">Haga Clic en la ✕ para salir del juego</p>
         </div>
     `;
     gameArea.appendChild(canvas);
@@ -354,7 +347,7 @@ class CpuGame {
         this.evaluationPhase = false;
         this.evaluationTimer = 0;
         this.currentLevel = 1; 
-        this.levelTimerCount = 0; // Contador de checks para subir nivel
+        this.levelTimerCount = 0; 
         this.aiUpdateTimer = 0;
 
         // Entidades
@@ -392,14 +385,14 @@ class CpuGame {
         if (active) {
             this.isPaused = true; 
             hud.style.display = 'flex';
-            this.updateHUD("INITIALIZING...", "PLEASE WAIT");
+            this.updateHUD("INICIALIZANDO...", "POR FAVOR ESPERE");
             
             this.setLoading(true);
             await new Promise(r => setTimeout(r, 100));
             if (!this.ai.isTrained) await this.ai.trainModel();
             this.setLoading(false);
 
-            this.showAnnouncement("CPU OVERDRIVE", "AI TAKING CONTROL");
+            this.showAnnouncement("ACELERACIÓN DEL CPU", "IA TOMÓ EL CONTROL");
             await new Promise(r => setTimeout(r, 2500));
 
             this.isPaused = false; 
@@ -409,7 +402,7 @@ class CpuGame {
             this.evaluationPhase = true;
             this.evaluationTimer = 0;
             
-            this.updateHUD("AI LEVEL: 1", "WARMING UP");
+            this.updateHUD("IA NIVEL: 1", "CALENTAMIENTO");
 
         } else {
             hud.style.display = 'none';
@@ -437,54 +430,43 @@ class CpuGame {
 
         this.frameCount++;
         this.player.update(this.keys, this.mouse, this.width, this.height);
-
-        // ==========================================
         // LÓGICA DE IA (RALENTIZADA)
-        // ==========================================
         if (this.mlModeActive && this.ai.isTrained) {
             
             if (this.evaluationPhase) {
                 this.evaluationTimer++;
-                // Fase inicial: 5 segundos (300 frames) de calentamiento
                 if (this.evaluationTimer > 300) {
                     this.evaluationPhase = false;
-                    this.updateHUD("AI LEVEL: 1", "ASSISTANCE MODE");
+                    this.updateHUD("IA NIVEL: 1", "MODO ASISTIDO");
                 }
             } else {
-                // Evaluar cada 4 segundos (240 frames) en lugar de 1 segundo
                 this.aiUpdateTimer++;
                 if (this.aiUpdateTimer >= 240) {
                     this.aiUpdateTimer = 0;
                     
                     const prediction = this.ai.predict(this.score, this.cpu.health, this.enemies.length, this.frameCount);
-                    
-                    // LÓGICA DE CAMBIO DE NIVEL
-                    if (prediction === 2) { // La IA detecta que vas bien ("Hardcore")
+                    if (prediction === 2) {
                         
                         if (this.currentLevel === 1) {
                             this.currentLevel = 2;
                             this.levelTimerCount = 0;
-                            this.showAnnouncement("LEVEL 2", "MINES DEPLOYED");
-                            this.updateHUD("AI LEVEL: 2", "HARDCORE MODE");
+                            this.showAnnouncement("NIVEL 2", "MINAS COLOCADAS");
+                            this.updateHUD("IA NIVEL: 2", "MODO DÍFICIL");
                         } 
                         else if (this.currentLevel === 2) {
-                            // Si ya estás en 2, cuenta cuántas veces seguidas la IA dice "vas bien"
                             this.levelTimerCount++;
-                            
-                            // Necesitas 7 checks consecutivos en Nivel 2 para subir al 3
-                            // 7 checks * 4 segundos = ~28 segundos de juego sólido
                             if (this.levelTimerCount >= 7) {
                                 this.currentLevel = 3;
-                                this.showAnnouncement("⚠ LEVEL 3 ⚠", "BERSERK OVERLOAD");
-                                this.updateHUD("AI LEVEL: 3", "MAXIMUM OVERDRIVE");
+                                this.showAnnouncement("⚠ NIVEL 3 ⚠", "BERSERK SOBRECARGA");
+                                this.updateHUD("IA NIVEL: 3", "MODO BERSERK");
                             }
                         }
 
-                    } else if (prediction === 0) { // La IA detecta que vas mal ("Ayuda")
+                    } else if (prediction === 0) {
                          if (this.currentLevel > 1) {
                             this.currentLevel = 1;
                             this.levelTimerCount = 0;
-                            this.updateHUD("AI LEVEL: 1", "ASSISTANCE MODE");
+                            this.updateHUD("IA NIVEL: 1", "MODO ASISTIDO");
                          }
                     }
                 }
@@ -506,10 +488,7 @@ class CpuGame {
         } else {
             this.enemySpawnRate = 120; // Modo Manual
         }
-
-        // ==========================================
         // SPAWN Y UPDATE
-        // ==========================================
         if (this.frameCount % this.enemySpawnRate === 0) this.spawnEnemy();
 
         this.bullets.forEach((b, i) => {
@@ -518,7 +497,6 @@ class CpuGame {
         });
 
         this.enemies.forEach((e, ei) => {
-            // Berserk: Velocidad extra en Nivel 3
             let speedMult = 1;
             if (this.currentLevel === 3 && this.mlModeActive) speedMult = 2.5; 
             
@@ -642,7 +620,6 @@ class CpuGame {
     }
 }
 
-/* --- CLASES VISUALES (MISMAS QUE ANTES) --- */
 class CpuEntity { 
     constructor(x, y) { this.x = x; this.y = y; this.size = 60; this.health = 100; }
     draw(ctx) {
