@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlayFab Arcade - CpuDefender Edition</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="side-decoration left">
+    <div class="neon-owl">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path class="owl-body" d="M50,60 Q20,180 100,180 Q180,180 150,60 Q100,10 50,60 Z" fill="none" stroke="#00f3ff" stroke-width="4"/>
+            <circle class="owl-eye" cx="70" cy="80" r="15" fill="none" stroke="#ff00ff" stroke-width="3"/>
+            <circle class="owl-eye" cx="130" cy="80" r="15" fill="none" stroke="#ff00ff" stroke-width="3"/>
+            <path class="owl-beak" d="M90,100 L110,100 L100,120 Z" fill="none" stroke="#ffcc00" stroke-width="3"/>
+            <path class="owl-wing" d="M40,100 Q10,130 40,160" fill="none" stroke="#00f3ff" stroke-width="3"/>
+            <path class="owl-wing" d="M160,100 Q190,130 160,160" fill="none" stroke="#00f3ff" stroke-width="3"/>
+        </svg>
+    </div>
+</div>
+
+<div class="arcade-cabinet">
+  <header>
+    <h1>PLAYFAB</h1>
+  </header>
+
+  <div class="category-switch">
+    <button class="cat-btn active" onclick="switchCategory('minigames', this)">MINIJUEGOS</button>
+    <button class="cat-btn" onclick="switchCategory('pro', this)">ARCADE PRO</button>
+  </div>
+
+  <div class="screen-container">
+    <div class="game-display active-list" id="list-minigames">
+      <div class="game-card">
+        <img src="Images/ping pong.png" alt="Ping Pong">
+        <h3>PING PONG CLASSIC</h3>
+      </div>
+      <div class="game-card">
+        <img src="Images/snake.png" alt="Snake">
+        <h3>SNAKE RETRO</h3>
+      </div>
+      <div class="game-card">
+        <img src="Images/cpu_defender.png" alt="Cpu Defender">
+        <h3>CPU DEFENDER</h3>
+      </div>
+    </div>
+    <div class="game-display" id="list-pro">
+      <div class="game-card">
+        <img src="https://images.unsplash.com/photo-1551103782-8ab07afd45c1?auto=format&fit=crop&q=80&w=400" alt="Street Fighter">
+        <h3>STREET FIGHTER II</h3>
+      </div>
+      <div class="game-card">
+        <img src="https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?auto=format&fit=crop&q=80&w=400" alt="Metal Slug">
+        <h3>METAL SLUG</h3>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="control-panel">
+    <button class="btn-side" id="prevBtn">◀</button>
+    <button class="btn-play" id="playBtn">PLAY</button>
+    <button class="btn-side" id="nextBtn">▶</button>
+  </div>
+</div>
+<div class="side-decoration right">
+    <div class="neon-text-container">
+        <h2 class="neon-epn">EPN</h2>
+        <p class="neon-sub">POLITÉCNICA</p>
+    </div>
+</div>
+<div id="game-overlay" class="game-overlay">
+    <div class="game-container">
+        <div class="game-header">
+            <h3 id="game-title">PLAYING...</h3>
+            <button class="btn-close" onclick="closeMinigame()">✕</button>
+        </div>
+        <div class="game-area" id="game-area" style="position: relative;">
+        </div>
+        
+        <div class="game-footer">
+            <span id="game-score">SCORE: 0000</span>
+            <span id="game-info">USE KEYBOARD AND MOUSE</span>
+        </div>
+    </div>
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
