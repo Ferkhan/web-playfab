@@ -1,19 +1,20 @@
-
 :root {
-  --primary: #ff3300;   
-  --secondary: #ffcc00;   
-  --arcade-body: #222;
+  /* PALETA RETRO HACKER */
+  --primary: #ff7b00;    /* Naranja Ámbar */
+  --secondary: #00ff41;  /* Verde Matrix */
+  
+  --arcade-body: #1a1a1a;
   --screen-bg: #000;
   
-  --text-white: #ffffff;
-  --bg-panel: #1a1a1a;
+  --text-white: #e0e0e0;
+  --bg-panel: #111;
 }
 
 body {
   margin: 0;
   padding: 0;
   font-family: 'Press Start 2P', cursive;
-  background-color: #121212;
+  background-color: #050505;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,15 +31,15 @@ body {
   width: 100%;
   max-width: 650px;
   background: var(--arcade-body);
-  border: 12px solid #333;
-  border-top-color: #444;
-  border-left-color: #3a3a3a;
-  border-right-color: #222;
-  border-bottom-color: #111;
+  border: 12px solid #222;
+  border-top-color: #333;
+  border-left-color: #2a2a2a;
+  border-right-color: #111;
+  border-bottom-color: #000;
   
   border-radius: 20px;
   box-shadow: 
-      0 0 60px rgba(0,0,0,0.9),
+      0 0 60px rgba(255, 123, 0, 0.1),
       inset 0 0 20px rgba(0,0,0,0.8); 
   position: relative;
   display: flex;
@@ -54,7 +55,7 @@ header {
   text-align: center;
   border-bottom: 8px solid var(--primary);
   border-radius: 8px 8px 0 0;
-  box-shadow: inset 0 0 30px rgba(255, 51, 0, 0.3);
+  box-shadow: inset 0 0 30px rgba(255, 123, 0, 0.3);
   position: relative;
   overflow: hidden;
 }
@@ -62,7 +63,7 @@ header::after {
     content: "";
     position: absolute;
     top: 0; left: 0; width: 100%; height: 50%;
-    background: linear-gradient(to bottom, rgba(255,255,255,0.1), transparent);
+    background: linear-gradient(to bottom, rgba(255, 123, 0, 0.1), transparent);
     pointer-events: none;
 }
 
@@ -81,7 +82,7 @@ header h1 {
   display: flex;
   gap: 15px;
   margin-top: 15px;
-  background: #0a0a0a;
+  background: #050505;
   padding: 10px;
   border-radius: 10px;
   border: 1px solid #333;
@@ -103,11 +104,11 @@ header h1 {
 
 .cat-btn.active {
   background: var(--primary);
-  color: #fff;
-  border-color: #ff6633;
+  color: #000;
+  border-color: #ff9933;
   box-shadow: 0 0 15px var(--primary);
   transform: scale(1.05);
-  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  text-shadow: none;
 }
 
 .screen-container {
@@ -131,7 +132,7 @@ header h1 {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
+  background: radial-gradient(circle, rgba(0, 255, 65, 0.05) 0%, transparent 60%);
   pointer-events: none;
   z-index: 15;
   transform: rotate(-15deg);
@@ -181,7 +182,7 @@ header h1 {
   image-rendering: pixelated;
   border: 4px solid var(--primary);
   background: #090909;
-  box-shadow: 0 0 20px rgba(255, 51, 0, 0.3);
+  box-shadow: 0 0 20px rgba(255, 123, 0, 0.3);
 }
 
 .game-card h3 {
@@ -195,9 +196,9 @@ header h1 {
 
 .control-panel {
   width: 100%;
-  background: #333; 
+  background: #222; 
   padding: 30px 0;
-  border-top: 2px solid #555;
+  border-top: 2px solid #444;
   display: flex;
   justify-content: center;
   gap: 30px;
@@ -206,22 +207,24 @@ header h1 {
   box-shadow: 0 -10px 20px rgba(0,0,0,0.5);
 }
 
+/* BOTONES LATERALES: ÁMBAR */
 .btn-side {
   width: 55px;
   height: 55px;
   border-radius: 50%;
   border: none;
   cursor: pointer;
-  color: white;
+  color: #222;
   font-size: 1.2rem;
-  background: radial-gradient(circle at 30% 30%, #ff5555, #cc0000);
+  background: radial-gradient(circle at 30% 30%, #ffaa44, #cc6600);
   box-shadow: 
-      0 5px 0 #880000,
+      0 5px 0 #884400,
       0 10px 10px rgba(0,0,0,0.5),
       inset 0 0 10px rgba(255,255,255,0.3); 
   transition: transform 0.1s, box-shadow 0.1s;
 }
 
+/* BOTÓN PLAY: VERDE */
 .btn-play {
   font-family: 'Press Start 2P', cursive;
   padding: 20px 30px;
@@ -229,25 +232,25 @@ header h1 {
   border-radius: 10px; 
   cursor: pointer;
   font-size: 1rem;
-  color: white;
-  background: linear-gradient(to bottom, #00ee00, #00aa00);
+  color: #000;
+  background: linear-gradient(to bottom, #00ff41, #00aa22);
   box-shadow: 
-      0 6px 0 #006600, 
+      0 6px 0 #005511, 
       0 12px 15px rgba(0,0,0,0.6),
       inset 0 1px 0 rgba(255,255,255,0.4);
-  text-shadow: 0 2px 0 rgba(0,0,0,0.3);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.3);
   transition: transform 0.1s, box-shadow 0.1s;
 }
 
 .btn-play:hover { 
-  background: linear-gradient(to bottom, #22ff22, #00cc00); 
+  background: linear-gradient(to bottom, #44ff77, #00cc33); 
   filter: brightness(1.1);
 }
 
 .btn-side:active {
   transform: translateY(5px);
   box-shadow: 
-      0 0 0 #880000, 
+      0 0 0 #884400, 
       0 2px 5px rgba(0,0,0,0.5),
       inset 0 0 5px rgba(0,0,0,0.5);
 }
@@ -255,11 +258,10 @@ header h1 {
 .btn-play:active {
   transform: translateY(6px);
   box-shadow: 
-      0 0 0 #006600, 
+      0 0 0 #005511, 
       0 2px 5px rgba(0,0,0,0.5),
       inset 0 0 10px rgba(0,0,0,0.3);
 }
-
 
 @keyframes flicker {
   0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
@@ -287,7 +289,7 @@ header h1 {
   width: 95%; 
   max-width: 800px; 
   border: 4px solid var(--primary); 
-  box-shadow: 0 0 50px rgba(255, 51, 0, 0.5); 
+  box-shadow: 0 0 50px rgba(255, 123, 0, 0.3); 
   border-radius: 10px;
   position: relative;
 }
@@ -336,7 +338,7 @@ header h1 {
 
 canvas { 
   border: 2px solid var(--secondary); 
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8); 
+  box-shadow: 0 0 20px rgba(0, 255, 65, 0.2); 
   max-width: 100%;
   height: auto;
   display: block;
@@ -354,15 +356,15 @@ canvas {
 /* CPU UI */
 .ui-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
 .hud-controls { position: absolute; bottom: 20px; right: 20px; display: flex; gap: 10px; pointer-events: all; }
-.btn-cpu { background: #444; border: 2px solid #fff; color: white; padding: 8px 15px; font-family: 'Courier New', monospace; font-weight: bold; cursor: pointer; }
-.cpu-game-over-msg { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.9); padding: 20px 40px; text-align: center; border: 2px solid red; color: white; z-index: 20; }
+.btn-cpu { background: #333; border: 2px solid var(--secondary); color: var(--secondary); padding: 8px 15px; font-family: 'Courier New', monospace; font-weight: bold; cursor: pointer; }
+.cpu-game-over-msg { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.9); padding: 20px 40px; text-align: center; border: 2px solid var(--primary); color: var(--primary); z-index: 20; }
 
 /* DECO */
 .side-decoration { position: absolute; top: 50%; transform: translateY(-50%); display: flex; justify-content: center; align-items: center; z-index: 5; pointer-events: none; }
 .side-decoration.left { left: 5%; width: 250px; height: 250px; }
 .side-decoration.right { right: 5%; width: 250px; text-align: center; }
-.neon-owl svg { width: 100%; filter: drop-shadow(0 0 10px #00f3ff); }
-.neon-epn { font-family: 'Monoton', cursive; font-size: 5rem; color: #fff; text-shadow: 0 0 20px #ff00ff; animation: neonFlickerText 2s infinite alternate; }
+.neon-owl svg { width: 100%; filter: drop-shadow(0 0 10px var(--secondary)); }
+.neon-epn { font-family: 'Monoton', cursive; font-size: 5rem; color: #fff; text-shadow: 0 0 20px var(--secondary), 0 0 40px var(--secondary); animation: neonFlickerText 2s infinite alternate; }
 @media (max-width: 1200px) { .side-decoration { display: none; } }
 
 /* ML TOGGLE & ALERTS */
@@ -370,19 +372,19 @@ canvas {
 .ml-label { font-size: 0.8rem; color: var(--secondary); font-family: 'Press Start 2P', cursive; }
 .switch { position: relative; display: inline-block; width: 60px; height: 34px; }
 .switch input { opacity: 0; width: 0; height: 0; }
-.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #444; transition: .4s; border: 2px solid #666; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #333; transition: .4s; border: 2px solid #555; }
 .slider:before { position: absolute; content: ""; height: 26px; width: 26px; left: 2px; bottom: 2px; background-color: white; transition: .4s; }
 input:checked + .slider { background-color: var(--primary); }
 input:checked + .slider:before { transform: translateX(26px); }
 .slider.round { border-radius: 34px; }
 .slider.round:before { border-radius: 50%; }
 
-/* RED OVERLAY ALERT */
-.challenge-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 0, 0, 0.4); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; pointer-events: none; }
-.challenge-overlay h1 { font-family: 'Press Start 2P', cursive; font-size: 2rem; color: #fff; text-shadow: 4px 4px 0 #ff0000; text-align: center; }
-.challenge-overlay p { font-family: 'Courier New', monospace; font-weight: bold; font-size: 1.2rem; color: #ffff00; background: #000; padding: 5px 10px; border: 2px solid #ffff00; text-align:center; }
+/* ALERTAS */
+.challenge-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(200, 80, 0, 0.3); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; pointer-events: none; }
+.challenge-overlay h1 { font-family: 'Press Start 2P', cursive; font-size: 2rem; color: #fff; text-shadow: 4px 4px 0 var(--primary); text-align: center; }
+.challenge-overlay p { font-family: 'Courier New', monospace; font-weight: bold; font-size: 1.2rem; color: #000; background: var(--secondary); padding: 5px 10px; border: 2px solid #fff; text-align:center; }
 
-.spinner { border: 8px solid #333; border-top: 8px solid #00ff00; border-radius: 50%; width: 60px; height: 60px; animation: spin 1s linear infinite; }
+.spinner { border: 8px solid #333; border-top: 8px solid var(--secondary); border-radius: 50%; width: 60px; height: 60px; animation: spin 1s linear infinite; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 .ai-status-hud {
     position: absolute;
@@ -390,12 +392,12 @@ input:checked + .slider:before { transform: translateX(26px); }
     left: 20px;
     font-family: 'Courier Prime', monospace;
     font-weight: bold;
-    color: #00ff00;
+    color: var(--secondary);
     font-size: 1rem;
-    text-shadow: 0 0 5px #00ff00;
+    text-shadow: 0 0 5px var(--secondary);
     background: rgba(0, 20, 0, 0.8);
     padding: 10px;
-    border: 1px solid #00ff00;
+    border: 1px solid var(--secondary);
     pointer-events: none;
     z-index: 50;
     display: flex;
@@ -410,35 +412,36 @@ input:checked + .slider:before { transform: translateX(26px); }
 }
 
 
-/* --- ESTILOS DEL BOTÓN DE AYUDA --- */
+/* --- ESTILOS DEL BOTÓN DE AYUDA (MODIFICADO) --- */
 .btn-help {
-    background: linear-gradient(180deg, #8e44ad, #9b59b6);
-    border: 3px solid #ecf0f1;
-    color: white;
+    background: #222; /* Fondo oscuro */
+    border: 2px solid var(--secondary); /* Borde verde matrix */
+    color: var(--secondary);
     font-family: 'Press Start 2P', cursive;
     font-size: 1.2rem;
     padding: 15px;
     margin-left: 15px;
     cursor: pointer;
-    box-shadow: 0 6px 0 #552869, 0 10px 10px rgba(0,0,0,0.5);
+    box-shadow: 0 6px 0 #005511, 0 10px 10px rgba(0,0,0,0.5); /* Sombra verde oscura */
     border-radius: 5px;
     transition: transform 0.1s;
 }
 
 .btn-help:active {
     transform: translateY(4px);
-    box-shadow: 0 2px 0 #552869;
+    box-shadow: 0 2px 0 #005511;
+}
+.btn-help:hover {
+    background: #003300;
+    color: #fff;
 }
 
-/* --- ESTILOS DEL MODAL TUTORIAL --- */
+/* --- ESTILOS DEL MODAL TUTORIAL (MODIFICADO) --- */
 .tutorial-overlay {
-    display: none; /* Oculto por defecto */
+    display: none; 
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9);
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.95);
     backdrop-filter: blur(8px);
     z-index: 2000;
     align-items: center;
@@ -447,12 +450,12 @@ input:checked + .slider:before { transform: translateX(26px); }
 
 .tutorial-content {
     background: #111;
-    border: 4px solid #00f3ff;
+    border: 4px solid var(--secondary); /* Borde verde matrix */
     width: 90%;
     max-width: 900px;
     padding: 20px;
-    color: #fff;
-    box-shadow: 0 0 30px #00f3ff;
+    color: #e0e0e0;
+    box-shadow: 0 0 30px rgba(0, 255, 65, 0.3); /* Resplandor verde */
     border-radius: 10px;
     font-family: 'Courier Prime', monospace;
     max-height: 90vh;
@@ -463,26 +466,27 @@ input:checked + .slider:before { transform: translateX(26px); }
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid #ff00ff;
+    border-bottom: 2px solid var(--primary); /* Línea naranja */
     padding-bottom: 10px;
     margin-bottom: 20px;
 }
 
 .tutorial-header h2 {
-    color: #ff00ff;
+    color: var(--primary); /* Texto naranja */
     font-family: 'Press Start 2P';
     font-size: 1.2rem;
-    text-shadow: 0 0 10px #ff00ff;
+    text-shadow: 0 0 10px var(--primary);
     margin: 0;
 }
 
 .btn-close-tutorial {
     background: none;
     border: none;
-    color: #ff00ff;
+    color: var(--secondary); /* X verde */
     font-size: 2rem;
     cursor: pointer;
 }
+.btn-close-tutorial:hover { color: #fff; }
 
 /* Estructura de Columnas */
 .tutorial-body {
@@ -493,22 +497,23 @@ input:checked + .slider:before { transform: translateX(26px); }
 
 .control-column {
     flex: 1;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(0, 255, 65, 0.05); /* Tinte verde muy sutil */
     padding: 15px;
     border-radius: 8px;
+    border: 1px solid #333;
     min-width: 300px;
 }
 
 .control-column h3 {
     text-align: center;
-    color: #00f3ff;
-    border-bottom: 1px solid #00f3ff;
+    color: var(--secondary); /* Títulos verdes */
+    border-bottom: 1px solid var(--secondary);
     padding-bottom: 10px;
 }
 
 .game-guide {
     margin-bottom: 15px;
-    border-left: 3px solid #ffcc00;
+    border-left: 3px solid var(--primary); /* Borde lateral naranja */
     padding-left: 10px;
 }
 
@@ -516,18 +521,19 @@ input:checked + .slider:before { transform: translateX(26px); }
     width: 20px;
     vertical-align: middle;
     margin-right: 5px;
+    filter: grayscale(100%) brightness(1.2); /* Iconos más discretos */
 }
 
 .key-highlight {
-    background: #333;
-    border: 1px solid #fff;
+    background: #222;
+    border: 1px solid var(--secondary);
     padding: 2px 5px;
     border-radius: 3px;
     font-weight: bold;
-    color: #00f3ff;
+    color: var(--secondary);
 }
 
-/* --- DIAGRAMA VISUAL DEL JOYSTICK --- */
+/* --- DIAGRAMA VISUAL DEL JOYSTICK (MODIFICADO) --- */
 .joystick-visual {
     display: flex;
     justify-content: space-around;
@@ -548,49 +554,56 @@ input:checked + .slider:before { transform: translateX(26px); }
 .stick-ball {
     width: 60px;
     height: 60px;
-    background: radial-gradient(circle at 30% 30%, #ff4d4d, #990000);
+    /* Gradiente Naranja (como botones laterales) */
+    background: radial-gradient(circle at 30% 30%, #ffaa44, #cc6600);
     border-radius: 50%;
-    border: 4px solid #555;
+    border: 4px solid #333;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 10px;
+    color: #000;
+    font-weight: bold;
     margin-bottom: 10px;
     box-shadow: 0 5px 10px rgba(0,0,0,0.5);
 }
 
-/* Botones en Cruz (Triangulo) */
+/* Botones en Cruz */
 .buttons-part { position: relative; }
 
 .btn-top {
     width: 40px; height: 40px;
-    background: radial-gradient(circle at 30% 30%, #3498db, #2980b9);
+    /* B1 es el de Acción: VERDE */
+    background: radial-gradient(circle at 30% 30%, #00ff41, #00aa22);
     border-radius: 50%;
     border: 3px solid #fff;
     text-align: center;
     line-height: 35px;
     font-weight: bold;
+    color: #000;
     margin-bottom: 5px;
 }
 
 .btn-mid-row {
     display: flex;
-    gap: 40px; /* Separación entre botones laterales */
+    gap: 40px; 
 }
 
 .btn-left, .btn-right {
     width: 40px; height: 40px;
-    background: radial-gradient(circle at 30% 30%, #2ecc71, #27ae60);
+    /* B2 y B3 son secundarios: ÁMBAR OSCURO */
+    background: radial-gradient(circle at 30% 30%, #ffcc00, #b38f00);
     border-radius: 50%;
     border: 3px solid #fff;
     text-align: center;
     line-height: 35px;
     font-weight: bold;
+    color: #000;
 }
 
 .label-func {
     font-size: 0.8rem;
-    color: #aaa;
+    color: #888;
     margin-top: 10px;
 }
 
