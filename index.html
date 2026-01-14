@@ -70,6 +70,8 @@
     <button class="btn-side" id="prevBtn">◀</button>
     <button class="btn-play" id="playBtn">JUGAR</button>
     <button class="btn-side" id="nextBtn">▶</button>
+    <button class="btn-help" id="helpBtn" title="Ver Tutorial">?</button>
+
   </div>
 </div>
 
@@ -115,6 +117,69 @@
     </div>
 </div>
 
+
+<div id="tutorial-overlay" class="tutorial-overlay">
+    <div class="tutorial-content">
+        <div class="tutorial-header">
+            <h2>INSTRUCCIONES DE JUEGO</h2>
+            <button class="btn-close-tutorial" onclick="closeTutorial()">✕</button>
+        </div>
+
+        <div class="tutorial-body">
+            <div class="control-column">
+                <h3>🖥️ MODO PC</h3>
+                
+                <div class="game-guide">
+                    <h4><img src="Images/ping pong.png" onerror="this.style.display='none'"> PING PONG</h4>
+                    <p><strong>Control:</strong> Mueve el <span class="key-highlight">MOUSE</span> arriba/abajo.</p>
+                </div>
+
+                <div class="game-guide">
+                    <h4><img src="Images/snake.png" onerror="this.style.display='none'"> SNAKE</h4>
+                    <p><strong>Control:</strong> Flechas <span class="key-highlight">⬆ ⬇ ⬅ ➡</span></p>
+                </div>
+
+                <div class="game-guide">
+                    <h4><img src="Images/cpu_defender.png" onerror="this.style.display='none'"> CPU DEFENDER</h4>
+                    <p><strong>Apuntar:</strong> Mover MOUSE</p>
+                    <p><strong>Disparar:</strong> Click Izquierdo</p>
+                    <p><strong>Armas:</strong> Teclas <span class="key-highlight">1</span> <span class="key-highlight">2</span> <span class="key-highlight">3</span></p>
+                </div>
+            </div>
+
+            <div class="control-column arcade-column">
+                <h3>🕹️ MODO ARCADE</h3>
+                <p class="subtitle">Configuración Joystick Casero</p>
+
+                <div class="joystick-visual">
+                    <div class="stick-part">
+                        <div class="stick-ball">PALANCA</div>
+                        <span class="label-func">Mover / Apuntar</span>
+                    </div>
+                    
+                    <div class="buttons-part">
+                        <div class="btn-top">B1</div>
+                        <div class="btn-mid-row">
+                            <div class="btn-left">B2</div>
+                            <div class="btn-right">B3</div>
+                        </div>
+                        <span class="label-func">Acciones</span>
+                    </div>
+                </div>
+
+                <div class="arcade-legend">
+                    <ul>
+                        <li><strong>B1 (Arriba):</strong> Disparo (CpuDefender) / Aceptar</li>
+                        <li><strong>B2 (Izq):</strong> Arma Anterior</li>
+                        <li><strong>B3 (Der):</strong> Arma Siguiente</li>
+                        <li><strong>Palanca:</strong> Movimiento en todos los juegos</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="tutorial.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

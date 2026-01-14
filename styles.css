@@ -408,3 +408,197 @@ input:checked + .slider:before { transform: translateX(26px); }
     color: #aaffaa;
     opacity: 0.8;
 }
+
+
+/* --- ESTILOS DEL BOTÓN DE AYUDA --- */
+.btn-help {
+    background: linear-gradient(180deg, #8e44ad, #9b59b6);
+    border: 3px solid #ecf0f1;
+    color: white;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.2rem;
+    padding: 15px;
+    margin-left: 15px;
+    cursor: pointer;
+    box-shadow: 0 6px 0 #552869, 0 10px 10px rgba(0,0,0,0.5);
+    border-radius: 5px;
+    transition: transform 0.1s;
+}
+
+.btn-help:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 #552869;
+}
+
+/* --- ESTILOS DEL MODAL TUTORIAL --- */
+.tutorial-overlay {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(8px);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+}
+
+.tutorial-content {
+    background: #111;
+    border: 4px solid #00f3ff;
+    width: 90%;
+    max-width: 900px;
+    padding: 20px;
+    color: #fff;
+    box-shadow: 0 0 30px #00f3ff;
+    border-radius: 10px;
+    font-family: 'Courier Prime', monospace;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.tutorial-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #ff00ff;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.tutorial-header h2 {
+    color: #ff00ff;
+    font-family: 'Press Start 2P';
+    font-size: 1.2rem;
+    text-shadow: 0 0 10px #ff00ff;
+    margin: 0;
+}
+
+.btn-close-tutorial {
+    background: none;
+    border: none;
+    color: #ff00ff;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+/* Estructura de Columnas */
+.tutorial-body {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.control-column {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+    min-width: 300px;
+}
+
+.control-column h3 {
+    text-align: center;
+    color: #00f3ff;
+    border-bottom: 1px solid #00f3ff;
+    padding-bottom: 10px;
+}
+
+.game-guide {
+    margin-bottom: 15px;
+    border-left: 3px solid #ffcc00;
+    padding-left: 10px;
+}
+
+.game-guide h4 img {
+    width: 20px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.key-highlight {
+    background: #333;
+    border: 1px solid #fff;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-weight: bold;
+    color: #00f3ff;
+}
+
+/* --- DIAGRAMA VISUAL DEL JOYSTICK --- */
+.joystick-visual {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 20px 0;
+    padding: 20px;
+    background: #000;
+    border: 2px dashed #444;
+    border-radius: 10px;
+}
+
+.stick-part, .buttons-part {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stick-ball {
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle at 30% 30%, #ff4d4d, #990000);
+    border-radius: 50%;
+    border: 4px solid #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+}
+
+/* Botones en Cruz (Triangulo) */
+.buttons-part { position: relative; }
+
+.btn-top {
+    width: 40px; height: 40px;
+    background: radial-gradient(circle at 30% 30%, #3498db, #2980b9);
+    border-radius: 50%;
+    border: 3px solid #fff;
+    text-align: center;
+    line-height: 35px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.btn-mid-row {
+    display: flex;
+    gap: 40px; /* Separación entre botones laterales */
+}
+
+.btn-left, .btn-right {
+    width: 40px; height: 40px;
+    background: radial-gradient(circle at 30% 30%, #2ecc71, #27ae60);
+    border-radius: 50%;
+    border: 3px solid #fff;
+    text-align: center;
+    line-height: 35px;
+    font-weight: bold;
+}
+
+.label-func {
+    font-size: 0.8rem;
+    color: #aaa;
+    margin-top: 10px;
+}
+
+.arcade-legend ul {
+    list-style: none;
+    padding: 0;
+    font-size: 0.9rem;
+}
+.arcade-legend li {
+    margin-bottom: 5px;
+}
