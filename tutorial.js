@@ -16,8 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. Abrir el tutorial
     helpBtn.addEventListener('click', () => {
         tutorialOverlay.style.display = 'flex';
-        // Opcional: Agregar clase para animaciones si deseas
-        // tutorialOverlay.classList.add('fade-in');
+        tutorialOverlay.classList.remove('fade-in');
+        void tutorialOverlay.offsetWidth;
+        tutorialOverlay.classList.add('fade-in');
     });
 
     // 2. Cerrar con el botón X
@@ -43,5 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function closeTutorial() {
         tutorialOverlay.style.display = 'none';
+        tutorialOverlay.classList.remove('fade-in');
     }
 });
