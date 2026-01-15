@@ -521,7 +521,6 @@ input:checked + .slider:before { transform: translateX(26px); }
     width: 20px;
     vertical-align: middle;
     margin-right: 5px;
-    filter: grayscale(100%) brightness(1.2); /* Iconos más discretos */
 }
 
 .key-highlight {
@@ -536,6 +535,7 @@ input:checked + .slider:before { transform: translateX(26px); }
 /* --- DIAGRAMA VISUAL DEL JOYSTICK (MODIFICADO) --- */
 .joystick-visual {
     display: flex;
+    flex-direction: row-reverse;
     justify-content: space-around;
     align-items: center;
     margin: 20px 0;
@@ -569,7 +569,11 @@ input:checked + .slider:before { transform: translateX(26px); }
 }
 
 /* Botones en Cruz */
-.buttons-part { position: relative; }
+.buttons-part {
+    display: flex;
+    flex-direction: column; /* Apila: Arriba -> Medio -> Abajo */
+    align-items: center;    /* Centra todo horizontalmente */
+}
 
 .btn-top {
     width: 40px; height: 40px;
@@ -587,26 +591,32 @@ input:checked + .slider:before { transform: translateX(26px); }
 .btn-mid-row {
     display: flex;
     gap: 40px; 
+    margin: 5px 0;
 }
 
-.btn-left, .btn-right {
-    width: 40px; height: 40px;
-    /* B2 y B3 son secundarios: ÁMBAR OSCURO */
-    background: radial-gradient(circle at 30% 30%, #ffcc00, #b38f00);
+.btn-left, .btn-right, .btn-bottom {
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    border: 3px solid #fff;
-    text-align: center;
-    line-height: 35px;
+    /* B2,B3, B4 son secundarios: ÁMBAR OSCURO */
+    background: radial-gradient(circle at 30% 30%, #ffcc00, #b38f00);
+    border: 2px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-weight: bold;
-    color: #000;
+    font-family: sans-serif;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    cursor: pointer;
 }
 
 .label-func {
+    margin-top: 15px;
     font-size: 0.8rem;
-    color: #888;
-    margin-top: 10px;
+    color: #aaa;
+    text-transform: uppercase;
 }
-
 .arcade-legend ul {
     list-style: none;
     padding: 0;
